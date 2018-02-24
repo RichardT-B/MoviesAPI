@@ -14,7 +14,6 @@ namespace Movies.Data.Repositories {
 
         public IEnumerable<Movie> Top( ) {
             return _context.Set<Movie>( )
-                .Include( m => m.Genres )
                 .OrderByDescending( m => m.AverageRating )
                 .ThenBy( m => m.Title )
                 .Take( 5 );
