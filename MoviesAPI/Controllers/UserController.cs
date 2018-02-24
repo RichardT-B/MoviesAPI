@@ -43,9 +43,9 @@ namespace Movies.API.Controllers
 
         // GET api/values
         [HttpPost("{uId}/rate/{mId}",Name = "SetRating")]
-        public IActionResult Rate( int uId, int mId, [FromBody]int rating ) {
+        public IActionResult Rate( int uId, int mId, [FromBody]int ratingValue ) {
             // Check if the rating is of a correct value
-            if ( rating < 0 || rating > 5 )
+            if ( ratingValue < 0 || ratingValue > 5 )
                 return BadRequest( );
 
             // Check that both the User and Movie exists
@@ -54,18 +54,19 @@ namespace Movies.API.Controllers
                 return NotFound( );
 
             // Attempt to get an existing rating
-            var r = _ratingRepository.Get( uId, mId );
-            if ( r is null ) {
+            var rating = _ratingRepository.Get( uId, mId );
+
+            if ( rating is null ) {
                 // Add a new rating if one doesn't already exist
                 _ratingRepository.Add( new Rating {
                     UserId = uId,
                     MovieId = mId,
-                    Value = rating
+                    Value = ratingValue
                 } );
             } else {
                 // Update the existing rating
-                r.Value = rating;
-                _ratingRepository.Update( r );
+                rating.Value = ratingValue;
+                _ratingRepository.Update( rating );
             }
 
             // Commit the changes to the repository
