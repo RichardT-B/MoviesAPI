@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Movies.API
-{
+namespace Movies.API {
     public class MoviesInitializer {
         private static MoviesContext context;
         public static void Initialize( IServiceProvider serviceProvider ) {
